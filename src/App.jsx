@@ -13,16 +13,23 @@ function App() {
 
   // Fetch countries from API - comment out for Json use
   useEffect(() => {
-    fetch("https://ih-countries-api.herokuapp.com/countries")
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch(
+          "https://ih-countries-api.herokuapp.com/countries"
+        );
+        const data = await response.json();
         // Sort countries alphabetically by common name
         const sortedCountries = data.sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
         setCountries(sortedCountries);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchCountries();
   }, []);
 
   return (
