@@ -1,12 +1,22 @@
-import React from "react";
 import { useParams, Link } from "react-router-dom";
 
 function CountryDetails({ countries }) {
   const { alpha3Code } = useParams(); // access the alpha3Code parameter from the URL
 
+  console.log(countries);
+  // function to check if countries is defined
+  if (!countries) {
+    return <div>Loading countries</div>;
+  }
+
   const country = countries.find(
     (country) => country.alpha3Code === alpha3Code
   ); // find the country with the alpha3Code from the URL
+
+  // function to check if country is defined
+  if (!country) {
+    return <div>Country not found</div>;
+  }
 
   // Find border countries
   const getBorderCountries = () => {
@@ -15,6 +25,7 @@ function CountryDetails({ countries }) {
         (country) => country.alpha3Code === borderCountryAlpha3Code // find the country with the alpha3Code from the URL if it matches the border country's alpha3Code
       );
 
+      // Return a Link component for each border country
       return (
         <li key={borderCountryAlpha3Code}>
           <Link to={`/${borderCountryAlpha3Code}`}>
